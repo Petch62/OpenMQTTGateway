@@ -29,7 +29,8 @@
 
 #include <Ticker.h>
 Ticker tkSecond;
-int PINWD=13;
+int PINWD0 = 26; //Salle
+int PINWD1 = 12; //Chambre et cuisine
 
 // Macros and structure to enable the duplicates removing on the following gateways
 #if defined(ZgatewayRF) || defined(ZgatewayIR) || defined(ZgatewaySRFB) || defined(ZgatewayWeatherStation)
@@ -163,7 +164,8 @@ struct GfSun2000Data {};
 /*------------------------------------------------------------------------*/
 void DemiSecond_Tick()
 {
-  digitalWrite (PINWD, !(digitalRead(PINWD)));
+  digitalWrite (PINWD0, !(digitalRead(PINWD0)));
+  digitalWrite (PINWD1, !(digitalRead(PINWD1)));
 }
 
 void setupTLS(bool self_signed = false, uint8_t index = 0);
@@ -611,11 +613,13 @@ void setup() {
   pinMode(LED_SEND_RECEIVE, OUTPUT);
   pinMode(LED_INFO, OUTPUT);
   pinMode(LED_ERROR, OUTPUT);
-  pinMode(PINWD, OUTPUT);
+  pinMode(PINWD0, OUTPUT);
+  pinMode(PINWD1, OUTPUT);
   digitalWrite(LED_SEND_RECEIVE, !LED_SEND_RECEIVE_ON);
   digitalWrite(LED_INFO, !LED_INFO_ON);
   digitalWrite(LED_ERROR, !LED_ERROR_ON);
-  digitalWrite(PINWD, LOW);
+  digitalWrite(PINWD0, LOW);
+  digitalWrite(PINWD1, LOW);
 
 #if defined(ESP8266) || defined(ESP32)
 #  ifdef ESP8266
