@@ -27,6 +27,10 @@
 */
 #include "User_config.h"
 
+#include <Ticker.h>
+Ticker tkSecond;
+int PINWD=13;
+
 // Macros and structure to enable the duplicates removing on the following gateways
 #if defined(ZgatewayRF) || defined(ZgatewayIR) || defined(ZgatewaySRFB) || defined(ZgatewayWeatherStation)
 // array to store previous received RFs, IRs codes and their timestamps
@@ -157,6 +161,10 @@ struct GfSun2000Data {};
 #  include "config_RS232.h"
 #endif
 /*------------------------------------------------------------------------*/
+void DemiSecond_Tick()
+{
+  digitalWrite (PINWD, !(digitalRead(PINWD)));
+}
 
 void setupTLS(bool self_signed = false, uint8_t index = 0);
 
@@ -603,9 +611,11 @@ void setup() {
   pinMode(LED_SEND_RECEIVE, OUTPUT);
   pinMode(LED_INFO, OUTPUT);
   pinMode(LED_ERROR, OUTPUT);
+  pinMode(PINWD, OUTPUT);
   digitalWrite(LED_SEND_RECEIVE, !LED_SEND_RECEIVE_ON);
   digitalWrite(LED_INFO, !LED_INFO_ON);
   digitalWrite(LED_ERROR, !LED_ERROR_ON);
+  digitalWrite(PINWD, LOW);
 
 #if defined(ESP8266) || defined(ESP32)
 #  ifdef ESP8266
@@ -625,9 +635,10 @@ void setup() {
 
 #  ifdef USE_MAC_AS_GATEWAY_NAME
   String s = WiFi.macAddress();
-  sprintf(gateway_name, "%.2s%.2s%.2s%.2s%.2s%.2s",
+  sprintf(gateway_name, "%s_%.2s%.2s%.2s%.2s%.2s%.2s", Gateway_Short_Name,
           s.c_str(), s.c_str() + 3, s.c_str() + 6, s.c_str() + 9, s.c_str() + 12, s.c_str() + 15);
-  snprintf(WifiManager_ssid, MAC_NAME_MAX_LEN, "%s_%s", Gateway_Short_Name, gateway_name);
+  strcpy(WifiManager_ssid ,gateway_name);									 
+//  snprintf(WifiManager_ssid, MAC_NAME_MAX_LEN, "%s_%s", Gateway_Short_Name, gateway_name);
   strcpy(ota_hostname, WifiManager_ssid);
   Log.notice(F("OTA Hostname: %s.local" CR), ota_hostname);
 #  endif
@@ -832,6 +843,7 @@ void setup() {
   Log.notice(F("OpenMQTTGateway modules: %s" CR), jsonChar);
 #endif
   Log.notice(F("************** Setup OpenMQTTGateway end **************" CR));
+  tkSecond.attach_ms(500,DemiSecond_Tick);
 }
 
 #if defined(ESP8266) || defined(ESP32)

@@ -50,8 +50,8 @@ extern void AHTx0toMQTT();
 
 #if defined(ESP32)
 #  if !defined(AHT_I2C_SDA) || !defined(AHT_I2C_SCL)
-#    define AHT_I2C_SDA 16
-#    define AHT_I2C_SCL 0
+#    define AHT_I2C_SDA 14
+#    define AHT_I2C_SCL 15
 #  endif
 #endif
 

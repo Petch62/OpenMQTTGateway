@@ -50,8 +50,8 @@ extern void HTU21toMQTT();
 
 #if defined(ESP32)
 #  if !defined(I2C_SDA) || !defined(I2C_SCL)
-#    define I2C_SDA 16
-#    define I2C_SCL 0
+#    define I2C_SDA 14
+#    define I2C_SCL 15
 #  endif
 #endif
 
