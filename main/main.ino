@@ -179,6 +179,7 @@ char mqtt_server[parameters_size + 1] = MQTT_SERVER;
 char mqtt_port[6] = MQTT_PORT;
 char mqtt_topic[parameters_size + 1] = Base_Topic;
 char gateway_name[parameters_size + 1] = Gateway_Name;
+char watchdogPin[3] = Watchdog_Pin;
 #ifdef USE_MAC_AS_GATEWAY_NAME
 #  undef WifiManager_ssid
 #  undef ota_hostname
@@ -1090,6 +1091,8 @@ void saveMqttConfig() {
   json["mqtt_broker_cert"] = mqtt_cert;
   json["mqtt_ss_index"] = mqtt_ss_index;
   json["ota_server_cert"] = ota_server_cert;
+  json["mqtt_port"] = mqtt_port;
+  json["watchdogPin"] = watchdogPin;
 
   File configFile = SPIFFS.open("/config.json", "w");
   if (!configFile) {
@@ -1156,6 +1159,8 @@ void setup_wifimanager(bool reset_settings) {
           strcpy(gateway_name, json["gateway_name"]);
         if (json.containsKey("ota_server_cert"))
           ota_server_cert = json["ota_server_cert"].as<const char*>();
+        if (json.containsKey("watchdogPin"))
+          strcpy(watchdogPin, json["watchdogPin"]);
       } else {
         Log.warning(F("failed to load json config" CR));
       }
@@ -1177,6 +1182,7 @@ void setup_wifimanager(bool reset_settings) {
   WiFiManagerParameter custom_mqtt_secure("secure", "mqtt secure", "1", 1, mqtt_secure ? "type=\"checkbox\" checked" : "type=\"checkbox\"");
   WiFiManagerParameter custom_mqtt_cert("cert", "mqtt broker cert", mqtt_cert.c_str(), 2048);
   WiFiManagerParameter custom_gateway_name("name", "gateway name", gateway_name, parameters_size);
+  WiFiManagerParameter custom_watchdogPin("wdpin", "WatchdogPin", watchdogPin, parameters_size);
 #  endif
   //WiFiManager
   //Local intialization. Once its business is done, there is no need to keep it around
@@ -1207,6 +1213,7 @@ void setup_wifimanager(bool reset_settings) {
   wifiManager.addParameter(&custom_mqtt_cert);
   wifiManager.addParameter(&custom_gateway_name);
   wifiManager.addParameter(&custom_mqtt_topic);
+  wifiManager.addParameter(&custom_watchdogPin);
 #  endif
   //set minimum quality of signal so it ignores AP's under that quality
   wifiManager.setMinimumSignalQuality(MinimumWifiSignalQuality);
@@ -1256,6 +1263,7 @@ void setup_wifimanager(bool reset_settings) {
     strcpy(mqtt_pass, custom_mqtt_pass.getValue());
     strcpy(mqtt_topic, custom_mqtt_topic.getValue());
     strcpy(gateway_name, custom_gateway_name.getValue());
+    strcpy(watchdogPin, custom_watchdogPin.getValue());
     mqtt_secure = *custom_mqtt_secure.getValue();
 
     int cert_len = strlen(custom_mqtt_cert.getValue());

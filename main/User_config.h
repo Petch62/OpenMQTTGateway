@@ -29,7 +29,7 @@
 #define user_config_h
 /*-------------------VERSION----------------------*/
 #ifndef OMG_VERSION
-#  define OMG_VERSION "v0.9.16"
+#  define OMG_VERSION "v0.9.17"
 #endif
 
 /*-------------CONFIGURE WIFIMANAGER-------------(only ESP8266 & SONOFF RFBridge)*/
@@ -171,6 +171,10 @@ const byte mac[] = {0xDE, 0xED, 0xBA, 0xFE, 0x54, 0x95}; //W5100 ethernet shield
 #  define MQTT_PORT "1883"
 #endif
 
+#ifndef Watchdog_Pin
+#  define Watchdog_Pin "26"
+#endif
+
 #if defined(ESP8266) || defined(ESP32)
 // Uncomment to use a device running TheengsGateway to decode BLE data. (https://github.com/theengs/gateway)
 // Set the topic to the subscribe topic configured in the TheengGateway
@@ -302,7 +306,9 @@ int lowpowermode = DEFAULT_LOW_POWER_MODE;
 //#define ZgatewayPilight "Pilight" //ESP8266, Arduino, ESP32
 //#define ZgatewayWeatherStation "WeatherStation" //ESP8266, Arduino, ESP32
 //#define ZgatewayGFSunInverter "GFSunInverter"   //ESP32
-#define ZgatewayBT     "BT"       //ESP8266, ESP32
+
+//#define ZgatewayBT     "BT"       //ESP8266, ESP32
+
 //#define ZgatewayRF2    "RF2"      //ESP8266, Arduino, ESP32
 //#define ZgatewaySRFB   "SRFB"     //                          Sonoff RF Bridge
 //#define Zgateway2G     "2G"       //ESP8266, Arduino, ESP32
@@ -493,6 +499,7 @@ int lowpowermode = DEFAULT_LOW_POWER_MODE;
 /*-------------------DEFINE LOG LEVEL----------------------*/
 #ifndef LOG_LEVEL
 #  define LOG_LEVEL LOG_LEVEL_NOTICE
+//#  define LOG_LEVEL LOG_LEVEL_TRACE
 #endif
 
 #endif

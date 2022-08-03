@@ -1281,7 +1281,17 @@ void MQTTtoBT(char* topicOri, JsonObject& BTdata) { // json object decoding
       // set Min RSSI if present if not setting default value
       hassPresence = (bool)BTdata["hasspresence"];
       Log.notice(F("New hasspresence: %T" CR), hassPresence);
-    }
+    }/*
+    // WDPIN set
+    if (BTdata.containsKey("wdpinset")) {
+      // storing wdpin for further use if needed
+      Log.trace(F("Previous wdpin: %s" CR), watchdogPin);
+      // set wdpin if present if not setting default value
+      int pin = abs((int)BTdata["wdpinset"]);
+      itoa(pin,watchdogPin,10);
+      //watchdogPin = BTdata["wdpinset"];
+      Log.notice(F("New wdpin: %s" CR), watchdogPin);
+    }*/  
   }
 }
 #endif
