@@ -165,7 +165,7 @@ const byte mac[] = {0xDE, 0xED, 0xBA, 0xFE, 0x54, 0x95}; //W5100 ethernet shield
 #  define MQTT_PASS "Pass"
 #endif
 #ifndef MQTT_SERVER
-#  define MQTT_SERVER "192.168.1.52"
+#  define MQTT_SERVER "192.168.1.50"
 #endif
 #ifndef MQTT_PORT
 #  define MQTT_PORT "1883"
