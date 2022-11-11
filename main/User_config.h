@@ -29,7 +29,7 @@
 #define user_config_h
 /*-------------------VERSION----------------------*/
 #ifndef OMG_VERSION
-#  define OMG_VERSION "v0.9.17"
+#  define OMG_VERSION "v0.9.18"
 #endif
 
 /*-------------CONFIGURE WIFIMANAGER-------------(only ESP8266 & SONOFF RFBridge)*/
@@ -159,10 +159,10 @@ const byte mac[] = {0xDE, 0xED, 0xBA, 0xFE, 0x54, 0x95}; //W5100 ethernet shield
 #endif
 
 #ifndef MQTT_USER
-#  define MQTT_USER "User"
+#  define MQTT_USER "petch62"
 #endif
 #ifndef MQTT_PASS
-#  define MQTT_PASS "Pass"
+#  define MQTT_PASS "******"
 #endif
 #ifndef MQTT_SERVER
 #  define MQTT_SERVER "192.168.1.50"

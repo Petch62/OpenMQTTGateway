@@ -1379,22 +1379,21 @@ void MQTTtoBT(char* topicOri, JsonObject& BTdata) { // json object decoding
 
     MQTTtoBTAction(BTdata);
 #  endif
-<<<<<<< HEAD
     // MinRSSI set
     if (BTdata.containsKey("minrssi")) {
       // storing Min RSSI for further use if needed
-      Log.trace(F("Previous minrssi: %d" CR), minRssi);
+      Log.trace(F("Previous minrssi: %d" CR), BTConfig.minRssi);
       // set Min RSSI if present if not setting default value
-      minRssi = abs((int)BTdata["minrssi"]);
-      Log.notice(F("New minrssi: %d" CR), minRssi);
+      BTConfig.minRssi = abs((int)BTdata["minrssi"]);
+      Log.notice(F("New minrssi: %d" CR), BTConfig.minRssi);
     }
     // Home Assistant presence message
     if (BTdata.containsKey("hasspresence")) {
       // storing Min RSSI for further use if needed
-      Log.trace(F("Previous hasspresence: %T" CR), hassPresence);
+//      Log.trace(F("Previous hasspresence: %T" CR), hassPresence);
       // set Min RSSI if present if not setting default value
-      hassPresence = (bool)BTdata["hasspresence"];
-      Log.notice(F("New hasspresence: %T" CR), hassPresence);
+//      hassPresence = (bool)BTdata["hasspresence"];
+//      Log.notice(F("New hasspresence: %T" CR), hassPresence);
     }/*
     // WDPIN set
     if (BTdata.containsKey("wdpinset")) {
@@ -1406,8 +1405,6 @@ void MQTTtoBT(char* topicOri, JsonObject& BTdata) { // json object decoding
       //watchdogPin = BTdata["wdpinset"];
       Log.notice(F("New wdpin: %s" CR), watchdogPin);
     }*/  
-=======
->>>>>>> a98a225ca3f7eeba8def256e6693563ad694c318
   }
 }
 #endif
